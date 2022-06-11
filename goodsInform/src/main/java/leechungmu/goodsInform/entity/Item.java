@@ -14,7 +14,9 @@ public class Item extends TimeBase{
 
     private int price;
 
-    private boolean isEnterprise;
+    private String content;
+
+    private boolean EnterpriseItem;
 
     private int stockQuantity;
 }
