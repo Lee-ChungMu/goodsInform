@@ -17,17 +17,23 @@ public class UserServiceImpl implements UserService{
     @Override
     public Long register(UserDto dto) {
         User user = dtoToEntity(dto);
+        Optional<User> result = repository.findById(user.getUserId());
+        if(result.isPresent()){
+            return null;
+        }
         repository.save(user);
         return user.getUserId();
     }
 
     @Override
-    public void delete(Long userId) {
+    public boolean delete(Long userId) {
         Optional<User> result = repository.findById(userId);
         if(result.isPresent()){
             User user = result.get();
             repository.delete(user);
+            return true;
         }
+        else return false;
 
     }
 

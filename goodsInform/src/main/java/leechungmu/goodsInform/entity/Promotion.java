@@ -21,7 +21,7 @@ public class Promotion {
 
     private int fixDiscount;
 
-    @ManyToOne
-    private Item item;
+    //@ManyToOne
+    //private Item item;
 
 }

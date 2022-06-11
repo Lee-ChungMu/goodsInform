@@ -13,6 +13,6 @@ public class UserDto {
     private Long userId;
     private String userName;
     private String userType;
-    private boolean userState;
+    private boolean userStat;
 
 }
