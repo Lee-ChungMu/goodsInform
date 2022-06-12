@@ -10,7 +10,8 @@ public interface UserService {
     boolean delete(Long userId);
 
     default User dtoToEntity(UserDto dto){
-        User user = User.builder().userId(dto.getUserId())
+        User user = User.builder()
+                .userId(dto.getUserId())
                 .userName(dto.getUserName())
                 .userType(dto.getUserType())
                 .userStat(dto.isUserStat())

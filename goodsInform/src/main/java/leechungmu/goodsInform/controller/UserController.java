@@ -5,7 +5,6 @@ import leechungmu.goodsInform.repository.UserRepository;
 import leechungmu.goodsInform.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -19,10 +18,13 @@ public class UserController {
 
     @PostMapping("")
     public ResponseEntity registerUser(@RequestBody UserDto dto){
-        if(userService.register(dto)==null){
+        Long userId = userService.register(dto);
+        if(userId==null){
             return new ResponseEntity<String>("중복된 아이디가 있습니다.", HttpStatus.BAD_REQUEST);
         }
-        else return new ResponseEntity<Long>(userService.register(dto), HttpStatus.OK);
+        else {
+            return new ResponseEntity<Long>(userId, HttpStatus.OK);
+        }
     }
 
     @DeleteMapping(value = "/{userId}")
