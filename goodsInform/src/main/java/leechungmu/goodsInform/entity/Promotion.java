@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Getter
@@ -17,11 +18,14 @@ public class Promotion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long promotionId;
 
-    private int ratioDiscount;
+    private boolean ratio;
 
-    private int fixDiscount;
+    private int sale;
 
-    //@ManyToOne
-    //private Item item;
+    private Date startDate;
+    private Date endDate;
+
+    @ManyToOne
+    private Item item;
 
 }
