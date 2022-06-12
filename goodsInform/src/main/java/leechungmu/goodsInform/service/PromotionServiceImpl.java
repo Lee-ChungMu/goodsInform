@@ -1,6 +1,7 @@
 package leechungmu.goodsInform.service;
 
 import leechungmu.goodsInform.entity.Dto.PromotionDto;
+import leechungmu.goodsInform.entity.Dto.PromotionResponseDto;
 import leechungmu.goodsInform.entity.Item;
 import leechungmu.goodsInform.entity.Promotion;
 import leechungmu.goodsInform.repository.ItemRepository;
@@ -8,6 +9,8 @@ import leechungmu.goodsInform.repository.PromotionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -39,5 +42,45 @@ public class PromotionServiceImpl implements PromotionService{
             return true;
         }
         return false;
+    }
+
+    @Override
+    public PromotionResponseDto optimalPromotion(Item item) {
+        Date now = new Date();
+        //List<Promotion> promotionList = repository.findAllByItem_ItemId(item.getItemId());
+        List<Promotion> promotionList = repository.findAllByItem_ItemIdAndDate(item.getItemId(),now);
+        PromotionResponseDto dto = null;
+        if(promotionList== null) return null;
+        int minPrice = Integer.MAX_VALUE;
+        for(Promotion promotion : promotionList){
+            int pre = item.getPrice();
+            int next;
+            if(promotion.isRatio() == true){
+                next = pre*(100-promotion.getSale())/100;
+            }
+            else{
+                if(pre-promotion.getSale() > 0){
+                    next = pre-promotion.getSale();
+                }
+                else continue;
+            }
+            if(next < minPrice) {
+                dto = PromotionResponseDto.builder()
+                        .promotionId(promotion.getPromotionId())
+                        .itemId(item.getItemId())
+                        .prePrice(pre)
+                        .nextPrice(next)
+                        .sale(promotion.getSale())
+                        .ratio(promotion.isRatio())
+                        .startDate(promotion.getStartDate())
+                        .endDate(promotion.getEndDate())
+                        .build();
+                minPrice= next;
+            }
+        }
+        if(minPrice == Integer.MAX_VALUE) return null;
+        else{
+            return dto;
+        }
     }
 }
