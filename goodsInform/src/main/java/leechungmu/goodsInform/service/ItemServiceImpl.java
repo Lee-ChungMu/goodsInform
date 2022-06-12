@@ -2,7 +2,9 @@ package leechungmu.goodsInform.service;
 
 import leechungmu.goodsInform.entity.Dto.ItemDto;
 import leechungmu.goodsInform.entity.Item;
+import leechungmu.goodsInform.entity.Promotion;
 import leechungmu.goodsInform.repository.ItemRepository;
+import leechungmu.goodsInform.repository.PromotionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ItemServiceImpl implements ItemService{
     private final ItemRepository repository;
+    private final PromotionRepository promotionRepository;
     @Override
     public Long register(ItemDto dto) {
         Item item = dtoToEntity(dto);
@@ -27,7 +30,12 @@ public class ItemServiceImpl implements ItemService{
         Optional<Item> result = repository.findById(itemId);
         if(result.isPresent()){
             Item item = result.get();
+            List<Promotion> promotionList = promotionRepository.findAllByItem_ItemId(itemId);
+            for(Promotion promotion : promotionList){
+                promotionRepository.delete(promotion);
+            }
             repository.delete(item);
+
             return true;
         }
         else return false;
