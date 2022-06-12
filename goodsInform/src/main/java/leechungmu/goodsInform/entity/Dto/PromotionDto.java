@@ -14,7 +14,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class PromotionDto {
 
-
+    private Long promotionId;
     private boolean ratio;
 
     private int sale;

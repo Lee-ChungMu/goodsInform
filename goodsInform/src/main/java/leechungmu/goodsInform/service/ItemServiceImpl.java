@@ -6,6 +6,7 @@ import leechungmu.goodsInform.entity.Promotion;
 import leechungmu.goodsInform.repository.ItemRepository;
 import leechungmu.goodsInform.repository.PromotionRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;

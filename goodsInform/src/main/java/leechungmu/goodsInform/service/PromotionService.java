@@ -13,6 +13,7 @@ public interface PromotionService {
     default Promotion dtoToEntity(PromotionDto dto){
         Item item = Item.builder().itemId(dto.getItemId()).build();
         Promotion promotion = Promotion.builder()
+                .promotionId(dto.getPromotionId())
                 .ratio(dto.isRatio())
                 .sale(dto.getSale())
                 .startDate(dto.getStartDate())
